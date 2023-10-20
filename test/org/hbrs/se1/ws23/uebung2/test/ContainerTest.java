@@ -8,26 +8,37 @@ import org.junit.jupiter.api.Test;
 public class ContainerTest {
 
     static Container container;
+    private static int count;
 
     @BeforeAll
     static void setUp() {
         container = new Container();
+        count = 0;
     }
 
     @Test
-    void addMemberID7() throws ContainerException {
+    void posAddMemberID7() throws ContainerException {
         container.addMember(new ConcreteMember(7));
-        assertEquals(1,container.size());
+        count++;
+        assertEquals(count,container.size());
+        assertThrows(ContainerException.class, () -> container.addMember(new ConcreteMember(7)));
+        assertEquals("Member Nr. " + 7 + " gelöscht!", container.deleteMember(7));
+        count--;
+        assertEquals(count,container.size());
     }
 
     @Test
-    void addMemberID11() throws ContainerException {
+    void posAddMemberID11() throws ContainerException {
         container.addMember(new ConcreteMember(11));
-        assertEquals(2,container.size());
+        count++;
+        assertEquals(count,container.size());
+        assertEquals("Member Nr. " + 11 + " gelöscht!", container.deleteMember(11));
+        count--;
+        assertEquals(count,container.size());
     }
 
     /*@Test
-    void dumpMethod() {
+    void posNr3DumpMethod() {
         for(ConcreteMember member : container) {
             assertEquals("Member (ID = " + member.getID() + ")", member.toString());
         }
@@ -36,32 +47,19 @@ public class ContainerTest {
      */
 
     @Test
-    void getCorrectSize() {
-        assertEquals(2, container.size());
+    void posGetCorrectSize() {
+        assertEquals(count, container.size());
     }
 
     @Test
-    void falseRemoveID9() throws ContainerException {
+    void negRemoveNonExistedID()  {
         assertEquals("Member Nr. " + 9 + " nicht gefunden!", container.deleteMember(9));
     }
 
-    @Test
-    void falseAddID7() throws ContainerException {
-        assertThrows(ContainerException.class, () -> container.addMember(new ConcreteMember(7)));
-    }
 
     @Test
-    void deleteMemberID11() throws ContainerException {
-        assertEquals("Member Nr. " + 11 + " gelöscht!", container.deleteMember(11));
-    }
-
-    @Test
-    void deleteMemberID7() throws ContainerException {
-        assertEquals("Member Nr. " + 7 + " gelöscht!", container.deleteMember(7));
-    }
-
-    @Test
-    void addMemberIDNull() throws ContainerException {
+    void negAddMemberIDNull()  {
         assertThrows(ContainerException.class, () -> container.addMember(new ConcreteMember(null)));
     }
+
 }
