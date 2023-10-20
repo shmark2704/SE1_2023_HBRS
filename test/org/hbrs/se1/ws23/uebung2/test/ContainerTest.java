@@ -17,7 +17,7 @@ public class ContainerTest {
     }
 
     @Test
-    void posAddMemberID7() throws ContainerException {
+    void MemberID7FullTest() throws ContainerException {
         container.addMember(new ConcreteMember(7));
         count++;
         assertEquals(count,container.size());
@@ -28,10 +28,11 @@ public class ContainerTest {
     }
 
     @Test
-    void posAddMemberID11() throws ContainerException {
+        void ID11FullTest() throws ContainerException {
         container.addMember(new ConcreteMember(11));
         count++;
         assertEquals(count,container.size());
+        assertThrows(ContainerException.class, () -> container.addMember(new ConcreteMember(11)));
         assertEquals("Member Nr. " + 11 + " gelöscht!", container.deleteMember(11));
         count--;
         assertEquals(count,container.size());
