@@ -12,8 +12,11 @@ public class Container {
      * wirft eine geprüfte Exception raus
      */
     public void addMember(Member member) throws ContainerException {
+        if (member.getID() == null) {
+            throw new ContainerException(member);
+        }
         for (Member existingMembers : members) {
-            if (existingMembers.getID() == member.getID() || member.getID() == null) {
+            if (existingMembers.getID().equals(member.getID())) {
                 throw new ContainerException(member);
             }
         }
@@ -26,7 +29,7 @@ public class Container {
      */
     public String deleteMember(Integer id)  {
         for (Member existingMember : members) {
-            if (existingMember.getID() == id) {
+            if (existingMember.getID().equals(id)) {
                 members.remove(existingMember);
                 count--;
                 return "Member Nr. " + id + " gelöscht!";
