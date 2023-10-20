@@ -6,7 +6,11 @@ public class Container {
     private ArrayList<Member> members = new ArrayList<>();
     private int count;
 
-
+    /*
+     * fügt ein neus Member in die ArrayList hinzu
+     * prüft, ob die MemberID bereits vorhanden ist
+     * wirft eine geprüfte Exception raus
+     */
     public void addMember(Member member) throws ContainerException {
         for (Member existingMembers : members) {
             if (existingMembers.getID() == member.getID() || member.getID() == null) {
@@ -16,8 +20,11 @@ public class Container {
         members.add(member);
         count++;
     }
-
-    public String deleteMember(Integer id) throws ContainerException {
+    /*
+     * Löscht ein Member aus der ArrayList, basiert auf der ID des Members
+     * Bei Fund und nicht Fund werden verschiedene String-return's rausgeworfen
+     */
+    public String deleteMember(Integer id)  {
         for (Member existingMember : members) {
             if (existingMember.getID() == id) {
                 members.remove(existingMember);
@@ -27,13 +34,17 @@ public class Container {
         }
         return "Member Nr. " + id + " nicht gefunden!";
     }
-
+    /*
+     * wirft aus die aktuell vorhandene Member-Objekte in der ArrayList
+     */
     public void dump() {
         for (Member existingMember : members) {
             existingMember.toString();
         }
     }
-
+    /*
+     * gibt die Größe der ArrayList aus
+     */
     public int size() {
         return count;
     }
