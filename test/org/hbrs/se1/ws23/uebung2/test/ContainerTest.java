@@ -30,7 +30,7 @@ public class ContainerTest {
     //Add Member with ID11
     @Test
     void posTestAddID11() throws ContainerException {
-        container.addMember(new ConcreteMember(11));
+        container.addMember(m2);
         count++;
         assertEquals(count,container.size());
     }
@@ -78,6 +78,6 @@ public class ContainerTest {
 
     @Test
     void posTestDump() {
-        //hilfe
+        //hilfe :(
     }
 }
