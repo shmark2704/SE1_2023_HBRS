@@ -7,12 +7,12 @@ public class Container {
     private int count;
 
     /*
-     * fügt ein neus Member in die ArrayList hinzu
+     * fügt ein neues Member in die ArrayList hinzu.
      * prüft, ob die MemberID bereits vorhanden ist
      * wirft eine geprüfte Exception raus
      */
     public void addMember(Member member) throws ContainerException {
-        if (member.getID().equals(null)) {
+        if (member.getID() == null) {
             throw new ContainerException(member);
         }
         for (Member existingMembers : members) {
