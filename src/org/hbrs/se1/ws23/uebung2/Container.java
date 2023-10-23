@@ -12,7 +12,7 @@ public class Container {
      * wirft eine geprüfte Exception raus
      */
     public void addMember(Member member) throws ContainerException {
-        if (member.getID() == null) {
+        if (member.getID().equals(null)) {
             throw new ContainerException(member);
         }
         for (Member existingMembers : members) {
