@@ -13,6 +13,12 @@ public class ContainerTest {
 
     private static int count;
 
+    //Create Container and it is not 'null'
+    @Test
+    void createObjectContainer() {
+        Container c = new Container();
+        assertNotNull(c);
+    }
     //Add Member with ID7
     @Test
     void posTestAddID7() throws ContainerException {
