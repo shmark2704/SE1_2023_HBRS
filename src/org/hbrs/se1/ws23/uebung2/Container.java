@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Container {
     private ArrayList<Member> members = new ArrayList<>();
-    private int count;
+    private static int count;
 
     /*
      * fügt ein neues Member in die ArrayList hinzu.
