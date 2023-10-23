@@ -71,8 +71,13 @@ public class ContainerTest {
 
     //add Member with ID null
     @Test
-    void negAddMemberIDNull()  {
+    void negTestAddMemberIDNull()  {
         assertThrows(ContainerException.class, () -> container.addMember(new ConcreteMember(null)));
     }
 
+
+    @Test
+    void posTestDump() {
+        //hilfe
+    }
 }
