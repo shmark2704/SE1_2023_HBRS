@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Container {
     private ArrayList<Member> members = new ArrayList<>();
-    private static int count;
 
     /*
      * fügt ein neues Member in die ArrayList hinzu.
@@ -21,7 +20,6 @@ public class Container {
             }
         }
         members.add(member);
-        count++;
     }
     /*
      * Löscht ein Member aus der ArrayList, basiert auf der ID des Members
@@ -31,7 +29,6 @@ public class Container {
         for (Member existingMember : members) {
             if (existingMember.getID().equals(id)) {
                 members.remove(existingMember);
-                count--;
                 return "Member Nr. " + id + " gelöscht!";
             }
         }
@@ -49,7 +46,7 @@ public class Container {
      * gibt die Größe der ArrayList aus
      */
     public int size() {
-        return count;
+        return members.size();
     }
 
 }
