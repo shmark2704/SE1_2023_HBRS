@@ -4,6 +4,12 @@ import org.hbrs.se1.ws23.uebung1.control.*;
 
 public class Client {
 
+	private Translator translator;
+
+	public Client(Translator translator) {
+		this.translator = translator;
+	}
+
 		/*
 		 * Methode zur Ausgabe einer Zahl auf der Console
 		 * (auch bezeichnet als CLI, Terminal)
@@ -15,7 +21,7 @@ public class Client {
 			// aufgerufen werden.
 			//
 			// Strenge Implementierung gegen das Interface Translator gewuenscht!
-			 Translator translator = FactoryTranslator.createGermanTranslator();
+
 			 String result = translator.translateNumber(aNumber);
 
 			System.out.println("Das Ergebnis der Berechnung: " + result );

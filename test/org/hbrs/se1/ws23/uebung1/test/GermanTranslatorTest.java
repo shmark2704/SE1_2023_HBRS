@@ -2,10 +2,7 @@ package org.hbrs.se1.ws23.uebung1.test;
 
 import org.hbrs.se1.ws23.uebung1.control.GermanTranslator;
 import org.hbrs.se1.ws23.uebung1.control.Translator;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
 import java.util.InputMismatchException;
 
 import static org.junit.jupiter.api.Assertions.*;
