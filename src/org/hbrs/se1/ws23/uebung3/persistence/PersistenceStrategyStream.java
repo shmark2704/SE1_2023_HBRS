@@ -1,8 +1,10 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
+import org.hbrs.se1.ws23.uebung2.Member;
+
 import java.util.List;
 
-public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
+public class PersistenceStrategyStream<E extends Member> implements PersistenceStrategy<E> {
 
     // URL of file, in which the objects are stored
     private String location = "objects.ser";
@@ -35,7 +37,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     /**
      * Method for saving a list of Member-objects to a disk (HDD)
      */
-    public void save(List<E> member) throws PersistenceException  {
+    public void save(List<Member> member) throws PersistenceException  {
 
     }
 
@@ -45,7 +47,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * Some coding examples come for free :-)
      * Take also a look at the import statements above ;-!
      */
-    public List<E> load() throws PersistenceException  {
+    public List<Member> load() throws PersistenceException  {
         // Some Coding hints ;-)
 
         // ObjectInputStream ois = null;

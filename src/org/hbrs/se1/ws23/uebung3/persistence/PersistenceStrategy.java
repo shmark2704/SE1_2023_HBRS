@@ -1,5 +1,7 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
+import org.hbrs.se1.ws23.uebung2.Member;
+
 import java.util.List;
 
 /**
@@ -15,9 +17,9 @@ import java.util.List;
  *
  * @param <E>
  */
-public interface PersistenceStrategy<E> {
+public interface PersistenceStrategy<E extends Member> {
     public void openConnection() throws PersistenceException;
     public void closeConnection() throws PersistenceException;
-    public void save(List<E> member) throws PersistenceException;
-    public List<E> load() throws PersistenceException;
+    public void save(List<Member> member) throws PersistenceException;
+    public List<Member> load() throws PersistenceException;
 }

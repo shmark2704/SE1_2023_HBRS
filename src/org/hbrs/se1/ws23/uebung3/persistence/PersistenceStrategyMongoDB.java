@@ -1,8 +1,10 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
+import org.hbrs.se1.ws23.uebung2.Member;
+
 import java.util.List;
 
-public class PersistenceStrategyMongoDB<E> implements PersistenceStrategy<E> {
+public class PersistenceStrategyMongoDB<E extends Member> implements PersistenceStrategy<E> {
 
     @Override
     public void openConnection() throws PersistenceException {
@@ -15,13 +17,13 @@ public class PersistenceStrategyMongoDB<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    public void save(List<E> member) {
+    public void save(List<Member> member) {
         throw new UnsupportedOperationException("Not implemented!");
 
     }
 
     @Override
-    public List<E> load() {
+    public List<Member> load() {
         throw new UnsupportedOperationException("Not implemented!");
     }
 }
