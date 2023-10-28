@@ -1,5 +1,7 @@
 package org.hbrs.se1.ws23.uebung2;
 
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
+
 import java.util.ArrayList;
 
 public class Container {
@@ -48,5 +50,16 @@ public class Container {
     public int size() {
         return members.size();
     }
+
+
+    public void store() throws PersistenceException {
+
+    }
+
+    public void load() throws PersistenceException {
+
+    }
+
+
 
 }
