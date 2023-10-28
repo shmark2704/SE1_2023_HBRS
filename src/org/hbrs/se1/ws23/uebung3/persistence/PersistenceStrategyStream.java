@@ -4,10 +4,16 @@ import org.hbrs.se1.ws23.uebung2.Member;
 
 import java.util.List;
 
+import java.io.*;
+
 public class PersistenceStrategyStream<E extends Member> implements PersistenceStrategy<E> {
 
     // URL of file, in which the objects are stored
     private String location = "objects.ser";
+    private FileOutputStream file;
+    private ObjectOutputStream outputStream;
+    private FileInputStream fileStream;
+    ObjectInputStream inputStream;
 
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
@@ -22,7 +28,15 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      * and save.
      */
     public void openConnection() throws PersistenceException {
+        try {
+            file = new FileOutputStream(location);
+            outputStream = new ObjectOutputStream(file);
 
+            fileStream = new FileInputStream(location);
+            inputStream = new ObjectInputStream(fileStream);
+        } catch (Exception e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "KA");
+        }
     }
 
     @Override
@@ -30,7 +44,12 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      * Method for closing the connections to a stream
      */
     public void closeConnection() throws PersistenceException {
-
+        try {
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable, "KA");
+        }
     }
 
     @Override
