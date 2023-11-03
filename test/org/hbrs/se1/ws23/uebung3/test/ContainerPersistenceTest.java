@@ -12,9 +12,9 @@ import java.util.List;
 
 
 public class ContainerPersistenceTest {
-    private Container container = new Container();
-    private PersistenceStrategyStream psS = new PersistenceStrategyStream();
-    private PersistenceStrategyMongoDB psMongoDB = new PersistenceStrategyMongoDB();
+    private final Container container = new Container();
+    private final PersistenceStrategyStream<Member> psS = new PersistenceStrategyStream<>();
+    private final PersistenceStrategyMongoDB<Member> psMongoDB = new PersistenceStrategyMongoDB<>();
 
     @Test
     void testStrategySet() {
