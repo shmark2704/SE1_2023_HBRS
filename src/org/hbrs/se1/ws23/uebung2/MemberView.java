@@ -7,7 +7,7 @@ public class MemberView {
     // wirft alle Member-Objekte aus Liste raus
     public void dump(List<Member> liste) {
         for (Member existingMember : liste) {
-            System.out.println(existingMember);
+            System.out.println(existingMember.toString());
         }
     }
 }
