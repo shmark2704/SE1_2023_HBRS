@@ -4,5 +4,6 @@ public class Client {
 
     public static void main(String[] args) {
         Container container = new Container();
+        MemberView memberView = new MemberView();
     }
 }
