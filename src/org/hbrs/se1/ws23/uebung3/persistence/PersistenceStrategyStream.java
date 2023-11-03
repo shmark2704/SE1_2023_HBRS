@@ -38,7 +38,7 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
             fos = new FileOutputStream(location);
             oos = new ObjectOutputStream(fos);
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "KA");
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Fehler beim Öffnen der Dateiverbindung.");
         }
     }
 
@@ -55,7 +55,7 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
                 ois.close();
             }
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable, "KA");
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Fehler beim Schließen der Dateiverbindung.");
         }
     }
 
@@ -66,11 +66,11 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
     public void save(List<Member> member) throws PersistenceException  {
         try {
             if (oos == null) {
-                throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "ka");
+                throw new PersistenceException(PersistenceException.ExceptionType.NoStrategyIsSet, "Dateiverbindung nicht geöffnet.");
             }
             oos.writeObject(member);
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable,"ka");
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable,"Fehler beim Speichern der Daten.");
         }
     }
 
@@ -83,11 +83,11 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
     public List<Member> load() throws PersistenceException  {
         try {
             if (ois == null) {
-                throw new PersistenceException(PersistenceException.ExceptionType.NoStrategyIsSet, "KA");
+                throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable, "Dateiverbindung nicht geöffnet.");
             }
             return (List<Member>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.NoStrategyIsSet, "KA");
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Fehler beim Laden der Daten.");
         }
     }
 }
