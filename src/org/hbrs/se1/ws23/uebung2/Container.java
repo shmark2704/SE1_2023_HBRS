@@ -40,14 +40,15 @@ public class Container {
         }
         return "Member Nr. " + id + " nicht gefunden!";
     }
+
+
     /*
-     * wirft aus die aktuell vorhandene Member-Objekte in der ArrayList
+     * gibt die Liste mit Member-Objekten zurück
      */
-    public void dump() {
-        for (Member existingMember : members) {
-            existingMember.toString();
-        }
+    public List<Member> getCurrentList() {
+        return members;
     }
+
     /*
      * gibt die Größe der ArrayList aus
      */
