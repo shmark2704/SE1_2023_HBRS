@@ -4,11 +4,10 @@ import java.util.List;
 
 public class MemberView {
 
+    // wirft alle Member-Objekte aus Liste raus
     public void dump(List<Member> liste) {
-
-    }
-
-    public List<Member> getCurrentList() {
-        return null;
+        for (Member existingMember : liste) {
+            System.out.println(existingMember);
+        }
     }
 }
