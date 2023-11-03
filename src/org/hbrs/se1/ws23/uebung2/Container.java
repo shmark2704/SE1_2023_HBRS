@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Container {
-    private ArrayList<Member> members = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
     private PersistenceStrategy<Member> persistenceStrategy = new PersistenceStrategyStream<>();
 
     /*
