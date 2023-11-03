@@ -1,11 +1,15 @@
 package org.hbrs.se1.ws23.uebung2;
 
 import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceStrategy;
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceStrategyStream;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Container {
     private ArrayList<Member> members = new ArrayList<>();
+    private PersistenceStrategy<Member> persistenceStrategy = new PersistenceStrategyStream<>();
 
     /*
      * fügt ein neues Member in die ArrayList hinzu.
@@ -53,10 +57,22 @@ public class Container {
 
 
     public void store() throws PersistenceException {
-
+        try {
+            persistenceStrategy.openConnection();
+            persistenceStrategy.save(members);
+        } finally {
+            persistenceStrategy.closeConnection();
+        }
     }
 
     public void load() throws PersistenceException {
+        try {
+            List<Member> loadMember = persistenceStrategy.load();
+            members.clear();
+            members.addAll(loadMember);
+        } finally {
+            persistenceStrategy.closeConnection();
+        }
 
     }
 
