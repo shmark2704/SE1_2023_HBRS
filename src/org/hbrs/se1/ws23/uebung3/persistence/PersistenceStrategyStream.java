@@ -1,7 +1,8 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
-import org.hbrs.se1.ws23.uebung2.Member;
+import org.hbrs.se1.ws23.uebung2.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.io.*;
@@ -10,10 +11,13 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
 
     // URL of file, in which the objects are stored
     private String location = "objects.ser";
-    private FileOutputStream file;
-    private ObjectOutputStream outputStream;
-    private FileInputStream fileStream;
-    ObjectInputStream inputStream;
+    private ObjectInputStream ois;
+    private FileInputStream fis;
+    private ObjectOutputStream oos;
+    private FileOutputStream fos;
+    private List<Member> newList = new ArrayList<>();
+
+
 
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
@@ -29,12 +33,11 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      */
     public void openConnection() throws PersistenceException {
         try {
-            file = new FileOutputStream(location);
-            outputStream = new ObjectOutputStream(file);
-
-            fileStream = new FileInputStream(location);
-            inputStream = new ObjectInputStream(fileStream);
-        } catch (Exception e) {
+            fis = new FileInputStream(location);
+            ois = new ObjectInputStream(fis);
+            fos = new FileOutputStream(location);
+            oos = new ObjectOutputStream(fos);
+        } catch (IOException e) {
             throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "KA");
         }
     }
@@ -45,8 +48,12 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      */
     public void closeConnection() throws PersistenceException {
         try {
-            outputStream.close();
-            inputStream.close();
+            if (oos != null) {
+                oos.close();
+            }
+            if (ois != null) {
+                ois.close();
+            }
         } catch (IOException e) {
             throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable, "KA");
         }
@@ -57,7 +64,14 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      * Method for saving a list of Member-objects to a disk (HDD)
      */
     public void save(List<Member> member) throws PersistenceException  {
-
+        try {
+            if (oos == null) {
+                throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "ka");
+            }
+            oos.writeObject(member);
+        } catch (IOException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable,"ka");
+        }
     }
 
     @Override
@@ -67,26 +81,13 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      * Take also a look at the import statements above ;-!
      */
     public List<Member> load() throws PersistenceException  {
-        // Some Coding hints ;-)
-
-        // ObjectInputStream ois = null;
-        // FileInputStream fis = null;
-        // List<...> newListe =  null;
-        //
-        // Initiating the Stream (can also be moved to method openConnection()... ;-)
-        // fis = new FileInputStream( " a location to a file" );
-
-        // Tipp: Use a directory (ends with "/") to implement a negative test case ;-)
-        // ois = new ObjectInputStream(fis);
-
-        // Reading and extracting the list (try .. catch ommitted here)
-        // Object obj = ois.readObject();
-
-        // if (obj instanceof List<?>) {
-        //       newListe = (List) obj;
-        // return newListe
-
-        // and finally close the streams (guess where this could be...?)
-        return null;
+        try {
+            if (ois == null) {
+                throw new PersistenceException(PersistenceException.ExceptionType.NoStrategyIsSet, "KA");
+            }
+            return (List<Member>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.NoStrategyIsSet, "KA");
+        }
     }
 }
