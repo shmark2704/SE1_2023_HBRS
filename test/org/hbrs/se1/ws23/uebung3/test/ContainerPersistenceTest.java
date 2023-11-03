@@ -26,8 +26,8 @@ public class ContainerPersistenceTest {
     @Test
     void testMongoDBStrategy() {
         container.setPersistenceStrategy(psMongoDB);
-        assertThrows(PersistenceException.class, () -> container.store());
-        assertThrows(PersistenceException.class, () -> container.load());
+        assertThrows(UnsupportedOperationException.class, () -> container.store());
+        assertThrows(UnsupportedOperationException.class, () -> container.load());
     }
 
     @Test
