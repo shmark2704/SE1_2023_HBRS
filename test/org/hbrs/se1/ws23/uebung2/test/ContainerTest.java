@@ -2,11 +2,12 @@ package org.hbrs.se1.ws23.uebung2.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.hbrs.se1.ws23.uebung2.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class ContainerTest {
 
-    static Container container = new Container();
+    static Container container = new SingletonContainer();
     Member m1 = new ConcreteMember(7);
     Member m2 = new ConcreteMember(11);
 
