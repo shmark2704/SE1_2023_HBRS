@@ -25,7 +25,7 @@ public class Container {
             throw new ContainerException(member);
         }
         for (Member existingMembers : members) {
-            if (existingMembers.getID().equals(member.getID())) {
+            if (existingMembers.getID().intValue() == member.getID().intValue()) {
                 throw new ContainerException(member);
             }
         }
@@ -37,7 +37,7 @@ public class Container {
      */
     public String deleteMember(Integer id)  {
         for (Member existingMember : members) {
-            if (existingMember.getID().equals(id)) {
+            if (existingMember.getID().intValue() == id.intValue()) {
                 members.remove(existingMember);
                 return "Member Nr. " + id + " gelöscht!";
             }
@@ -66,8 +66,9 @@ public class Container {
             persistenceStrategy.openConnection();
             persistenceStrategy.save(members);
         } finally {
-            persistenceStrategy.closeConnection();
+
         }
+
     }
 
     public void load() throws PersistenceException {
