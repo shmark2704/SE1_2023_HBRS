@@ -4,7 +4,9 @@ package org.hbrs.se1.ws23.uebung2;
  * Implementiert das Interface Member
  */
 
-public class ConcreteMember implements Member{
+import java.io.Serializable;
+
+public class ConcreteMember implements Member, Serializable {
     private Integer id;
 
     /*
