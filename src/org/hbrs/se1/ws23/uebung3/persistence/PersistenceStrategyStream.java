@@ -33,10 +33,8 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
      */
     public void openConnection() throws PersistenceException {
         try {
-            fis = new FileInputStream(location);
-            ois = new ObjectInputStream(fis);
-            fos = new FileOutputStream(location);
-            oos = new ObjectOutputStream(fos);
+            oos = new ObjectOutputStream(new FileOutputStream(location));
+            ois = new ObjectInputStream(new FileInputStream(location));
         } catch (IOException e) {
             throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Fehler beim Öffnen der Dateiverbindung.");
         }
