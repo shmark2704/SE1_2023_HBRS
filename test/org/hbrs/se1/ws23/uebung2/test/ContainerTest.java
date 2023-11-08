@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class ContainerTest {
 
-    static Container container = new SingletonContainer();
+    static Container container = Container.getInstance();
     Member m1 = new ConcreteMember(7);
     Member m2 = new ConcreteMember(11);
 
@@ -16,9 +16,8 @@ public class ContainerTest {
 
     //Create Container and it is not 'null'
     @Test
-    void createObjectContainer() {
-        Container c = new Container();
-        assertNotNull(c);
+    void createObjectContainer() {;
+        assertNotNull(container);
     }
     //Add Member with ID7
     @Test

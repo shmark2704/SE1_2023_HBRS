@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class ContainerPersistenceTest {
-    private final Container container = new SingletonContainer();
+    private final Container container = Container.getInstance();
     private final PersistenceStrategyStream<Member> psS = new PersistenceStrategyStream<>();
     private final PersistenceStrategyMongoDB<Member> psMongoDB = new PersistenceStrategyMongoDB<>();
 
