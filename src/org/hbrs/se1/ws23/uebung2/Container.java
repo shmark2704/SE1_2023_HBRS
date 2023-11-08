@@ -8,6 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Container {
+
+    private static Container container;
+
+    private Container() {
+        container = new Container();
+    }
+    public static Container getInstance() {
+        return container;
+    }
     private List<Member> members = new ArrayList<>();
     private PersistenceStrategy<Member> persistenceStrategy;
 
