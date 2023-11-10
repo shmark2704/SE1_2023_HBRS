@@ -11,10 +11,11 @@ public class Container {
 
     private static Container container;
 
-    private Container() {
-        container = new Container();
-    }
-    public static Container getInstance() {
+    private Container() {}
+    public static synchronized Container getInstance() {
+        if (container == null) {
+            container = new Container();
+        }
         return container;
     }
     private List<Member> members = new ArrayList<>();
