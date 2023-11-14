@@ -31,10 +31,10 @@ import java.util.stream.Collectors;
  * 
  */
 
-public class Container {
+public class Container<E> {
 	 
 	// Interne ArrayList zur Abspeicherung der Objekte vom Type UserStory
-	private List<UserStory> liste = null;
+	private List<UserStory> liste;
 	
 	// Statische Klassen-Variable, um die Referenz
 	// auf das einzige Container-Objekt abzuspeichern
