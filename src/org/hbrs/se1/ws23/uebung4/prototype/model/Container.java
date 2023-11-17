@@ -1,11 +1,11 @@
 package org.hbrs.se1.ws23.uebung4.prototype.model;
 
-import org.hbrs.se1.ws23.uebung4.prototype.control.InputDialog;
+import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 /*
  * Klasse zum Management sowie zur Eingabe unnd Ausgabe von User-Stories.
@@ -62,6 +62,12 @@ public class Container<E> {
 	public static synchronized Container getInstance() {
 		return instance;
 	}
+
+	private PersistanceStrategy<UserStory> persistanceStrategy;
+
+	public void setPersistanceStrategy(PersistanceStrategy ps) {
+		persistanceStrategy = ps;
+	}
 	
 	/**
 	 * Vorschriftsmäßiges Ueberschreiben des Konstruktors (private) gemaess Singleton-Pattern (oder?)
@@ -71,52 +77,32 @@ public class Container<E> {
 		liste = new ArrayList<>();
 	}
 
-	private void store() throws ContainerException {
-		ObjectOutputStream oos = null;
-		FileOutputStream fos = null;
+	public void store() throws ContainerException, IOException {
 		try {
-			fos = new FileOutputStream(InputDialog.getLocation());
-			oos = new ObjectOutputStream(fos);
-			
-			oos.writeObject( this.liste );
-			System.out.println( this.size() + " UserStory wurden erfolgreich gespeichert!");
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		  //  Delegation in den aufrufendem Context
-		  // (Anwendung Pattern "Chain Of Responsibility)
-		  throw new ContainerException("Fehler beim Abspeichern");
+			persistanceStrategy.openConnection();
+			persistanceStrategy.save(liste);
+		} catch (IOException e1) {
+
+		} catch (ContainerException e2) {
+
 		}
 	}
 
 	/*
 	 * Methode zum Laden der Liste. Es wird die komplette Liste
 	 * inklusive ihrer gespeicherten UserStory-Objekte geladen.
-	 * 
+	 *
 	 */
-	public void load() {
-		ObjectInputStream ois = null;
-		FileInputStream fis = null;
+	public void load() throws IOException, ClassNotFoundException {
 		try {
-		  fis = new FileInputStream( InputDialog.getLocation() );
-		  ois = new ObjectInputStream(fis);
-		  
-		  // Auslesen der Liste
-		  Object obj = ois.readObject();
-		  if (obj instanceof List<?>) {
-			  this.liste = (List) obj;
-		  }
-		  System.out.println("Es wurden " + this.size() + " UserStory erfolgreich reingeladen!");
-		}
-		catch (IOException e) {
-			System.out.println("LOG (für Admin): Datei konnte nicht gefunden werden!");
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println("LOG (für Admin): Liste konnte nicht extrahiert werden (ClassNotFound)!");
-		}
-		finally {
-		  if (ois != null) try { ois.close(); } catch (IOException e) {}
-		  if (fis != null) try { fis.close(); } catch (IOException e) {}
+			List<UserStory> newListUserStory = persistanceStrategy.load();
+			liste.clear();
+			liste.addAll(newListUserStory);
+			persistanceStrategy.closeConnection();
+		} catch (IOException e1) {
+
+		} catch (ClassNotFoundException e2) {
+
 		}
 	}
 
@@ -163,20 +149,7 @@ public class Container<E> {
 	 * @return
 	 */
 	public List<UserStory> getCurrentList() {
-		return this.liste;
+		return liste;
 	}
 
-	/**
-	 * Liefert eine bestimmte UserStory zurück
-	 * @param id
-	 * @return
-	 */
-	private UserStory getUserStory(int id) {
-		for ( UserStory userStory : liste) {
-			if (id == userStory.getId() ){
-				return userStory;
-			}
-		}
-		return null;
-	}
 }
