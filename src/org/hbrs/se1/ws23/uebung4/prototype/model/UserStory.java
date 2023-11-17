@@ -1,6 +1,10 @@
-package org.hbrs.se1.ws23.uebung4.prototype;
-    public class UserStory {
+package org.hbrs.se1.ws23.uebung4.prototype.model;
+
+import java.io.Serializable;
+
+public class UserStory implements Serializable {
         // ToDo: Sind die Attribute der Klasse UserStory vollständig? (F4)
+        //  mit private-Zugang ergänzen
 
         private String titel;
         private int aufwand = 0;
@@ -81,5 +85,6 @@ package org.hbrs.se1.ws23.uebung4.prototype;
             this.strafe = strafe;
         }
 
-     }
+
+}
 
