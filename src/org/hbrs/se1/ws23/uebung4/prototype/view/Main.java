@@ -1,7 +1,8 @@
 package org.hbrs.se1.ws23.uebung4.prototype.view;
 
 import org.hbrs.se1.ws23.uebung4.prototype.model.Container;
-import org.hbrs.se1.ws23.uebung4.prototype.model.UserStory;
+import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
+
 
 /**
  * Start-Methoden zum Starten des Programms
@@ -10,7 +11,7 @@ import org.hbrs.se1.ws23.uebung4.prototype.model.UserStory;
 public class Main {
     public static void main (String[] args) throws Exception {
         // ToDo: Bewertung Exception-Handling (F3, F7)
-        Container<UserStory> con = Container.getInstance();
-        con.startEingabe();
+        Container<UserStory> container = Container.getInstance();
+        container.start();
     }
 }
