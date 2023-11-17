@@ -152,4 +152,8 @@ public class Container<E> {
 		return liste;
 	}
 
+	public void start() throws Exception {
+		InputDialog.startEingabe();
+	}
+
 }
