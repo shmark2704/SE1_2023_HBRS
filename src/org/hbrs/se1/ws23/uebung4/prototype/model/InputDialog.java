@@ -1,10 +1,9 @@
-package org.hbrs.se1.ws23.uebung4.prototype.control;
+package org.hbrs.se1.ws23.uebung4.prototype.model;
 
-import org.hbrs.se1.ws23.uebung4.prototype.model.Container;
-import org.hbrs.se1.ws23.uebung4.prototype.model.UserStory;
+import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -15,15 +14,15 @@ import java.util.stream.Collectors;
 public class InputDialog {
     private final static String LOCATION = "allStories.ser";
 
-    private List<UserStory> userStoryList = Container.getInstance().getCurrentList();
+    private static List<UserStory> userStoryList = Container.getInstance().getCurrentList();
 
     public static String getLocation() {
         return LOCATION;
     }
 
 
-    public void startEingabe() throws ContainerException, Exception {
-        String strInput = null;
+    public static void startEingabe() throws IOException, ContainerException {
+        String strInput;
 
         // Initialisierung des Eingabe-View
         // ToDo: Funktionsweise des Scanners erklären (F3)
@@ -51,9 +50,22 @@ public class InputDialog {
             }
             // Auswahl der bisher implementierten Befehle:
             if ( strings[0].equals("enter") ) {
+                    UserStory userStory;
+                    System.out.println("Bitte die Folgenden Daten eingeben und jeweils mit einer Leertaste separieren: 1)id, 2)titel, 3)mehrwert, " +
+                            "4)strafe, 5)aufwand, 6)risiko, 7)2priorität");
+                    try {
+                        strings = scanner.nextLine().split(" ");
+                        userStory = new UserStory(Integer.parseInt(strings[0]), strings[1], Integer.parseInt(strings[2]),
+                                Integer.parseInt(strings[3]), Integer.parseInt(strings[4]), Integer.parseInt(strings[5]), Double.parseDouble(strings[6]));
+                        Container.getInstance().addUserStory(userStory);
+                        System.out.println("User Story erfolgreich hinzugefügt!");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Falsche Eingabe. Bitte führen sie den enter-Prompt nochmal aus");
+                    }
+
+                }
                 // Daten einlesen ...
                 // this.addUserStory( new UserStory( data ) ) um das Objekt in die Liste einzufügen.
-            }
 
             if (  strings[0].equals("store")  ) {
                 // Beispiel-Code
@@ -61,10 +73,15 @@ public class InputDialog {
                 userStory.setId(22);
                 Container.getInstance().addUserStory(userStory);
                 try {
-                    this.store();
+                    Container.getInstance().store();
                 } catch (ContainerException e) {
                     e.printStackTrace();
                 }
+            }
+
+            if ( strings[0].equals("exit")) {
+                System.out.println("Programm beendet.");
+                break;
             }
         } // Ende der Schleife
     }
@@ -77,7 +94,7 @@ public class InputDialog {
     /**
      * Diese Methode realisiert die Ausgabe.
      */
-    public void startAusgabe() {
+    public static void startAusgabe() {
 
         // Hier möchte Herr P. die Liste mit einem eigenen Sortieralgorithmus sortieren und dann
         // ausgeben. Allerdings weiss der Student hier nicht weiter
@@ -102,61 +119,9 @@ public class InputDialog {
 
     }
 
-
-
-
     /*
      * Methode zum Speichern der Liste. Es wird die komplette Liste
      * inklusive ihrer gespeicherten UserStory-Objekte gespeichert.
      *
      */
-    private void store() throws ContainerException {
-        ObjectOutputStream oos = null;
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(LOCATION);
-            oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(userStoryList);
-            System.out.println( userStoryList.size() + " UserStory wurden erfolgreich gespeichert!");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            //  Delegation in den aufrufendem Context
-            // (Anwendung Pattern "Chain Of Responsibility)
-            throw new ContainerException("Fehler beim Abspeichern");
-        }
-    }
-
-    /*
-     * Methode zum Laden der Liste. Es wird die komplette Liste
-     * inklusive ihrer gespeicherten UserStory-Objekte geladen.
-     *
-     */
-    public void load() {
-        ObjectInputStream ois = null;
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(LOCATION);
-            ois = new ObjectInputStream(fis);
-
-            // Auslesen der Liste
-            Object obj = ois.readObject();
-            if (obj instanceof List<?>) {
-                userStoryList = (List) obj;
-            }
-            System.out.println("Es wurden " + userStoryList.size() + " UserStory erfolgreich reingeladen!");
-        }
-        catch (IOException e) {
-            System.out.println("LOG (für Admin): Datei konnte nicht gefunden werden!");
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("LOG (für Admin): Liste konnte nicht extrahiert werden (ClassNotFound)!");
-        }
-        finally {
-            if (ois != null) try { ois.close(); } catch (IOException e) {}
-            if (fis != null) try { fis.close(); } catch (IOException e) {}
-        }
-    }
-
 }
