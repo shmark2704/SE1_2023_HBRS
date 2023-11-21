@@ -1,12 +1,13 @@
 package org.hbrs.se1.ws23.uebung4.prototype.model;
 
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
 import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
 
 import java.io.*;
 import java.util.List;
 
-public class PSStream implements PersistanceStrategy {
+public class PSStream<U> implements PersistanceStrategy {
 
     private List<UserStory> userStoryList = Container.getInstance().getCurrentList();
 
@@ -16,7 +17,7 @@ public class PSStream implements PersistanceStrategy {
     private FileInputStream fis = null;
 
     @Override
-    public void openConnection() throws IOException {
+    public void openConnection() throws PersistenceException {
         try {
 
             fos = new FileOutputStream(InputDialog.getLocation());
@@ -25,12 +26,12 @@ public class PSStream implements PersistanceStrategy {
             fis = new FileInputStream(InputDialog.getLocation());
             ois = new ObjectInputStream(fis);
         } catch (IOException e) {
-
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Fehler beim Schließen der Dateiverbindung.");
         }
     }
 
     @Override
-    public void closeConnection() throws IOException {
+    public void closeConnection() throws IOException, PersistenceException {
         try {
             if (oos != null) {
                 oos.close();
@@ -39,7 +40,7 @@ public class PSStream implements PersistanceStrategy {
                 ois.close();
                 }
         } catch (IOException e) {
-
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Fehler beim Schließen der Dateiverbindung.");
         }
     }
 
@@ -60,8 +61,10 @@ public class PSStream implements PersistanceStrategy {
             System.out.println("LOG (für Admin): Liste konnte nicht extrahiert werden (ClassNotFound)!");
         }
         finally {
-            if (ois != null) try { ois.close(); } catch (IOException e) {}
-            if (fis != null) try { fis.close(); } catch (IOException e) {}
+            if (ois != null) try { ois.close(); } catch (IOException e) {
+                e.getCause();
+            }
+            if (fis != null) try { fis.close(); } catch (IOException e) {e.getCause();}
         }
         return userStoryList;
     }
