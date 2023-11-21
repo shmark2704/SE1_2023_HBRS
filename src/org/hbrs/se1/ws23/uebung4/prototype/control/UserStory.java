@@ -84,7 +84,5 @@ public class UserStory implements Serializable {
         public void setStrafe(int strafe) {
             this.strafe = strafe;
         }
-
-
 }
 
