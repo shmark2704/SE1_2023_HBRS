@@ -11,6 +11,7 @@ import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
 public class Main {
     public static void main (String[] args) throws Exception {
         // ToDo: Bewertung Exception-Handling (F3, F7)
+        // Exeptions werden in den Grundmethoden aufgegriffen, sodass in Main nur optional eine Try-catch-Handling durchzuführenent
         Container<UserStory> container = Container.getInstance();
         container.start();
     }
