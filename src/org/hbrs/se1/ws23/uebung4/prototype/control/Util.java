@@ -1,6 +1,7 @@
 package org.hbrs.se1.ws23.uebung4.prototype.control;
 
 import org.hbrs.se1.ws23.uebung4.prototype.model.Container;
+import org.hbrs.se1.ws23.uebung4.prototype.model.UserStory;
 
 import java.util.List;
 import java.util.stream.Collectors;
