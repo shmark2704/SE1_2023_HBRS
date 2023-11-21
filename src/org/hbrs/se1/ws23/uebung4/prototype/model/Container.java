@@ -1,7 +1,7 @@
 package org.hbrs.se1.ws23.uebung4.prototype.model;
 
 import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
-import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
+import org.hbrs.se1.ws23.uebung4.prototype.control.InputDialog;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
 
 import java.io.*;
@@ -78,7 +78,7 @@ public class Container<E> {
 		liste = new ArrayList<>();
 	}
 
-	void store() throws IOException, PersistenceException {
+	public void store() throws IOException, PersistenceException {
 		try {
 			setPersistanceStrategy(new PSStream());
 			persistanceStrategy.openConnection();
@@ -86,7 +86,7 @@ public class Container<E> {
 		} catch (PersistenceException e1) {
 			throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "");
 		} catch (ContainerException e2) {
-
+			e2.getCause();
 		}
 	}
 
@@ -95,7 +95,7 @@ public class Container<E> {
 	 * inklusive ihrer gespeicherten UserStory-Objekte geladen.
 	 *
 	 */
-	void load() throws ClassNotFoundException, IOException, PersistenceException {
+	public void load() throws ClassNotFoundException, IOException, PersistenceException {
 		try {
 			List<UserStory> newListUserStory = persistanceStrategy.load();
 			liste.clear();
@@ -113,7 +113,7 @@ public class Container<E> {
 	 * @throws ContainerException
 	 */
 	public void addUserStory ( UserStory userStory ) throws ContainerException {
-		if ( contains(userStory) == true ) {
+		if (contains(userStory)) {
 			ContainerException ex = new ContainerException("ID bereits vorhanden!");
 			throw ex;
 		}
