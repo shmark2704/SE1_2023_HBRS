@@ -1,5 +1,6 @@
 package org.hbrs.se1.ws23.uebung4.prototype.model;
 
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
 import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
 
@@ -19,7 +20,7 @@ import java.util.*;
  * - Anpassen der Methodennamen
  *
  * ToDo: Was ist ihre Strategie zur Wiederverwendung? (F1)
- * 	Container mit Generic entwickeln und bei Instanziierung das richtige Generic-Objekt angeben
+ * // Container mit Generic entwickeln und bei Instanziierung das richtige Generic-Objekt angeben
  *
  *
  * Alternative 1:
@@ -33,8 +34,8 @@ import java.util.*;
  * Entwurfsentscheidung: Die wichtigsten Zuständigkeiten (responsibilities) sind in einer Klasse, d.h. Container,
  * diese liegt in einem Package.
  * ToDo: Wie bewerten Sie diese Entscheidung? (F2, F6)
- *  Aufteilung der Klasse in verschiedene Funktionalitätsklassen -> objekt-orientierte Refaktorisierung
- *	 view, control, model - packages MVC
+ * // Aufteilung der Klasse in verschiedene Funktionalitätsklassen -> objekt-orientierte Refaktorisierung
+ * // view, control, model - packages MVC
  */
 
 public class Container<E> {
@@ -46,11 +47,11 @@ public class Container<E> {
 	// auf das einzige Container-Objekt abzuspeichern
 	// Diese Variante sei thread-safe, so hat Hr. P. es gehört... stimmt das?
 	// Todo: Bewertung Thread-Safeness (F1)
-	// 	Sicher
+	// Sicher
 	// Nachteil: ggf. geringer Speicherbedarf, da Singleton zu Programmstart schon erzeugt wird
 	// Todo: Bewertung Speicherbedarf (F1)
-	// 	Hoher Speicherbedarf
-	private static Container instance = new Container();
+	// Hoher Speicherbedarf
+	private static Container<UserStory> instance = new Container();
 	
 	// URL der Datei, in der die Objekte gespeichert werden 
 
@@ -63,9 +64,9 @@ public class Container<E> {
 		return instance;
 	}
 
-	private PersistanceStrategy<UserStory> persistanceStrategy;
+	private PSStream<UserStory> persistanceStrategy;
 
-	public void setPersistanceStrategy(PersistanceStrategy ps) {
+	public void setPersistanceStrategy(PSStream<UserStory> ps) {
 		persistanceStrategy = ps;
 	}
 	
@@ -77,12 +78,13 @@ public class Container<E> {
 		liste = new ArrayList<>();
 	}
 
-	public void store() throws ContainerException, IOException {
+	void store() throws IOException, PersistenceException {
 		try {
+			setPersistanceStrategy(new PSStream());
 			persistanceStrategy.openConnection();
 			persistanceStrategy.save(liste);
-		} catch (IOException e1) {
-
+		} catch (PersistenceException e1) {
+			throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "");
 		} catch (ContainerException e2) {
 
 		}
@@ -93,17 +95,16 @@ public class Container<E> {
 	 * inklusive ihrer gespeicherten UserStory-Objekte geladen.
 	 *
 	 */
-	public void load() throws IOException, ClassNotFoundException {
+	void load() throws ClassNotFoundException, IOException, PersistenceException {
 		try {
 			List<UserStory> newListUserStory = persistanceStrategy.load();
 			liste.clear();
 			liste.addAll(newListUserStory);
 			persistanceStrategy.closeConnection();
-		} catch (IOException e1) {
-
-		} catch (ClassNotFoundException e2) {
-
+		} catch (RuntimeException e) {
+			System.out.println("Etwas ist schief gelaufen in der Liste, versuchen sie es nochmal. " + e);
 		}
+
 	}
 
 	/**
@@ -153,7 +154,8 @@ public class Container<E> {
 	}
 
 	public void start() throws Exception {
-		InputDialog.startEingabe();
+		InputDialog inputDialog = new InputDialog();
+		inputDialog.startEingabe();
 	}
 
 }
