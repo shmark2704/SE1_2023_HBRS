@@ -17,9 +17,11 @@ public class Util {
     public static UserStory getUserStory(int id) {
         for ( UserStory userStory : list) {
             if (id == userStory.getId() ){
+                System.out.println("Diese User Story ist vorhanden im Speicher.");
                 return userStory;
             }
         }
+        System.out.println("Die User Story mit dieser ID existiert nicht.");
         return null;
     }
 
