@@ -1,8 +1,9 @@
-package org.hbrs.se1.ws23.uebung4.prototype.model;
+package org.hbrs.se1.ws23.uebung4.prototype.control;
 
 import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
-import org.hbrs.se1.ws23.uebung4.prototype.control.UserStory;
-import org.hbrs.se1.ws23.uebung4.prototype.control.Util;
+
+import org.hbrs.se1.ws23.uebung4.prototype.model.Container;
+import org.hbrs.se1.ws23.uebung4.prototype.model.UserStory;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
 
 import java.io.IOException;
