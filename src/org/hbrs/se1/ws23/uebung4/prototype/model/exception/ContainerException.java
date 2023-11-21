@@ -15,7 +15,7 @@ public class ContainerException extends Exception {
 	@Override
 	public void printStackTrace() {
 		if (this.id  != null) {
-			System.out.println("Das Person-Objekt mit der ID " + this.id + " ist bereits vorhanden!");
+			System.out.println("Das User Story-Objekt mit der ID " + this.id + " ist bereits vorhanden!");
 		} else {
 			System.out.println(this.getMessage());
 		}
