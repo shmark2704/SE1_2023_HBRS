@@ -49,7 +49,7 @@ public class InputDialog {
             String[] strings = strInput.split(" ");
 
             // 	Falls 'help' eingegeben wurde, werden alle Befehle ausgedruckt
-            if (strings[0].equals("help")) {
+            if (strings[0].equals("help") && strings.length==1) {
                 System.out.println("Folgende Befehle stehen zur Verfuegung: help, dump, load, store, enter, exit");
                 continue;
             }
@@ -63,7 +63,7 @@ public class InputDialog {
                 continue;
             }
             // Auswahl der bisher implementierten Befehle:
-            if (strings[0].equals("enter")) {
+            if (strings[0].equals("enter") && strings.length==1) {
                 UserStory userStory;
                 System.out.println("Bitte die Folgenden Daten eingeben und jeweils mit einer Leertaste separieren: 1)id, 2)titel, 3)mehrwert, " +
                         "4)strafe, 5)aufwand, 6)risiko, 7)priorität");
@@ -92,17 +92,17 @@ public class InputDialog {
             // Daten einlesen ...
             // this.addUserStory( new UserStory( data ) ) um das Objekt in die Liste einzufügen.
 
-            if (strings[0].equals("store")) {
+            if (strings[0].equals("store") && strings.length==1) {
                 Container.getInstance().store();
                 continue;
             }
 
-            if (strings[0].equals("exit")) {
+            if (strings[0].equals("exit") && strings.length==1) {
                 System.out.println("Programm beendet.");
                 break;
             }
 
-            if (strings[0].equals("load")) {
+            if (strings[0].equals("load") && strings.length==1) {
                 Container.getInstance().load();
                 continue;
             }
@@ -120,7 +120,7 @@ public class InputDialog {
                 continue;
             }
 
-            if (strings[0].equals("search")) {
+            if (strings[0].equals("search") && strings.length==1) {
                 System.out.println("Geben Sie die ID ein:");
                 strInput = scanner.next();
                 strings = strInput.split(" ");
