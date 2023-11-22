@@ -5,9 +5,9 @@ import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
 import org.hbrs.se1.ws23.uebung4.prototype.model.Container;
 import org.hbrs.se1.ws23.uebung4.prototype.model.UserStory;
 import org.hbrs.se1.ws23.uebung4.prototype.model.exception.ContainerException;
+import org.hbrs.se1.ws23.uebung4.prototype.view.UserStoryView;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class InputDialog {
     private final static String LOCATION = "allStories.ser";
 
-    private static List<UserStory> userStoryList = Container.getInstance().getCurrentList();
+    private final List<UserStory> userStoryList = Container.getInstance().getCurrentList();
 
     public static String getLocation() {
         return LOCATION;
@@ -58,7 +58,8 @@ public class InputDialog {
                 if (Container.getInstance().getCurrentList().size() == 0) {
                     System.out.println("Es gibt keine User Stories auf dem Speicher");
                 }
-                startAusgabe();
+                UserStoryView view = new UserStoryView();
+                view.startAusgabe(userStoryList);
                 continue;
             }
             // Auswahl der bisher implementierten Befehle:
@@ -137,32 +138,6 @@ public class InputDialog {
      * Alle Exceptions werden an den aufrufenden Context (hier: main) weitergegeben (throws)
      * Das entlastet den Entwickler zur Entwicklungszeit und den Endanwender zur Laufzeit
      */
-
-    /**
-     * Diese Methode realisiert die Ausgabe.
-     */
-    private static void startAusgabe() {
-
-        // Hier möchte Herr P. die Liste mit einem eigenen Sortieralgorithmus sortieren und dann
-        // ausgeben. Allerdings weiss der Student hier nicht weiter
-
-        // [Sortierung ausgelassen]
-        // Todo: Implementierung Sortierung (F4)
-        try {
-            Collections.sort(userStoryList, ((o1, o2) -> (int) (o1.getPrio() - o2.getPrio())));
-        } catch (RuntimeException e) {
-            System.out.println("Etwas ist schief gelaufen bei der Sortierung, versuchen sie nochmal! " + e);
-        }
-
-        // Klassische Ausgabe ueber eine For-Each-Schleife
-        String s;
-        for (UserStory story : userStoryList) {
-            s = story.getId() + ", " + story.getTitel() + ", " + story.getMehrwert() + ", " + story.getStrafe() + ", " +
-                    story.getAufwand() + ", " + story.getRisk() + " ," + story.getPrio();
-            System.out.println(s);
-        }
-
-    }
 
     // [Variante mit forEach-Methode / Streams (--> Kapitel 9, Lösung Übung Nr. 2)?
     //  Gerne auch mit Beachtung der neuen US1
