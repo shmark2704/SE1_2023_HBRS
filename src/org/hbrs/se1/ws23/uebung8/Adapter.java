@@ -2,6 +2,7 @@ package org.hbrs.se1.ws23.uebung8;
 
 public class Adapter implements HotelSuche {
 
+
     private QueryObject obj;
 
     @Override
@@ -10,6 +11,7 @@ public class Adapter implements HotelSuche {
     }
 
     private QueryObject transform(SuchAuftrag suche) {
+
         return null;
     }
 
